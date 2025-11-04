@@ -8,10 +8,13 @@ export const auth = {
 
   async init() {
     this.currentUser = storage.getCurrentUser();
-    logger.log('Auth initialized', this.currentUser ? `User: ${this.currentUser.nickname}` : 'No user logged in');
+    logger.log(
+      'Auth initialized',
+      this.currentUser ? `User: ${this.currentUser.nickname}` : 'No user logged in'
+    );
 
-    if (config.firebase.enabled) {
-      await firebaseAPI.init(); // connect once at startup
+    if (config.firebase?.enabled) {
+      await firebaseAPI.init();
     }
   },
 
@@ -36,7 +39,7 @@ export const auth = {
         storage.setCurrentUser(existing);
         logger.log('User logged in', nickname);
 
-        if (config.firebase.enabled) {
+        if (config.firebase?.enabled) {
           await firebaseAPI.savePlayer(nickname, { progress: existing.progress });
         }
 
@@ -64,9 +67,9 @@ export const auth = {
       storage.setCurrentUser(newUser);
       logger.log('New user created', nickname);
 
-      if (config.firebase.enabled) {
+      if (config.firebase?.enabled) {
         await firebaseAPI.init();
-        if (config.cloud.enforceUniqueNickname) {
+        if (config.cloud?.enforceUniqueNickname) {
           await firebaseAPI.claimNickname(nickname);
         }
         await firebaseAPI.savePlayer(nickname, { progress: newUser.progress });
@@ -88,6 +91,33 @@ export const auth = {
       return { success: true };
     } catch (error) {
       logger.error('Logout failed', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  async deleteAccount() {
+    try {
+      if (!this.currentUser) throw new Error('No user is logged in');
+
+      const confirmDelete = confirm(
+        `Are you sure you want to permanently delete your account "${this.currentUser.nickname}"?`
+      );
+      if (!confirmDelete) return { success: false, cancelled: true };
+
+      const nickname = this.currentUser.nickname;
+      storage.deleteUser(nickname);
+      storage.clearCurrentUser();
+      logger.log('Account deleted', nickname);
+
+      // optional: future cloud cleanup
+      if (config.firebase?.enabled) {
+        await firebaseAPI.deletePlayer?.(nickname);
+      }
+
+      this.currentUser = null;
+      return { success: true };
+    } catch (error) {
+      logger.error('Delete account failed', error);
       return { success: false, error: error.message };
     }
   },

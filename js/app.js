@@ -22,6 +22,16 @@ function setupEventListeners() {
   document.getElementById('logout-btn')?.addEventListener('click', onLogout);
   document.getElementById('profile-logout-btn')?.addEventListener('click', onLogout);
 
+  const deleteBtn = document.getElementById('delete-account-btn');
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', async () => {
+      const result = await auth.deleteAccount();
+      if (result.success) ui.showScreen('login');
+      else if (!result.cancelled) alert(result.error || 'Failed to delete account');
+  });
+}
+
+
   // Menu navigation (Play / Profile)
   document.querySelectorAll('.menu-card').forEach(card => {
     card.addEventListener('click', (e) => {

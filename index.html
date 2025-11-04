@@ -7,12 +7,18 @@
     <title>Escape Game</title>
     <link rel="stylesheet" href="/css/style.css" />
   </head>
+
   <body>
     <div id="app">
+
+      <!-- ============================
+           LOGIN SCREEN
+      ============================ -->
       <div id="login-screen" class="screen active">
         <div class="card fade-in">
           <h1>Welcome</h1>
           <p class="subtitle">Enter your details to begin your adventure</p>
+
           <form id="login-form">
             <div class="input-group">
               <label for="nickname">Nickname *</label>
@@ -25,6 +31,7 @@
                 autocomplete="off"
               />
             </div>
+
             <div class="input-group">
               <label for="pin">PIN (optional)</label>
               <input
@@ -37,11 +44,16 @@
               />
               <small>Used to protect your progress on this device</small>
             </div>
+
             <button type="submit" class="btn-primary">Enter Game</button>
           </form>
         </div>
       </div>
 
+
+      <!-- ============================
+           HOME SCREEN
+      ============================ -->
       <div id="home-screen" class="screen">
         <div class="container fade-in">
           <header class="header">
@@ -65,6 +77,10 @@
         </div>
       </div>
 
+
+      <!-- ============================
+           PLAY SCREEN (CHAPTER SELECTION)
+      ============================ -->
       <div id="play-screen" class="screen">
         <div class="container fade-in">
           <header class="header">
@@ -72,11 +88,14 @@
             <h1>Select Chapter</h1>
           </header>
 
-          <div class="chapters-grid" id="chapters-grid">
-          </div>
+          <div class="chapters-grid" id="chapters-grid"></div>
         </div>
       </div>
 
+
+      <!-- ============================
+           CHAPTER SCREEN (CHATBOT)
+      ============================ -->
       <div id="chapter-screen" class="screen">
         <div class="container fade-in">
           <header class="header">
@@ -111,6 +130,10 @@
         </div>
       </div>
 
+
+      <!-- ============================
+           PROFILE SCREEN
+      ============================ -->
       <div id="profile-screen" class="screen">
         <div class="container fade-in">
           <header class="header">
@@ -119,17 +142,14 @@
           </header>
 
           <div class="profile-content">
+            <!-- User Info Card -->
             <div class="content-card profile-card">
               <div class="avatar-section">
                 <div id="avatar-display" class="avatar">
                   <span id="avatar-initial"></span>
                 </div>
-                <input
-                  type="file"
-                  id="avatar-upload"
-                  accept="image/*"
-                  style="display: none;"
-                />
+
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;" />
                 <button id="change-avatar-btn" class="btn-secondary">Change Avatar</button>
               </div>
 
@@ -139,6 +159,7 @@
               </div>
             </div>
 
+            <!-- Stats -->
             <div class="content-card stats-card">
               <h3>📊 Progress Stats</h3>
               <div class="stats-grid">
@@ -162,19 +183,29 @@
               <small class="stats-note">🏆 Leaderboard integration coming soon</small>
             </div>
 
-            <button id="profile-logout-btn" class="btn-danger">Logout</button>
+            <!-- Account Actions -->
+            <div class="content-card" style="text-align: center;">
+              <button id="profile-logout-btn" class="btn-danger">Logout</button>
+              <button id="delete-account-btn" class="btn-danger" style="margin-top: 0.8rem; background:#b91c1c;">
+                🗑 Delete Account
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
 
-<script type="module" src="/js/config.js"></script>
-<script type="module" src="/js/logger.js"></script>
-<script type="module" src="/js/storage.js"></script>
-<script type="module" src="/js/firebase-init.js"></script>
-<script type="module" src="/js/auth.js"></script>
-<script type="module" src="/js/ui.js"></script>
-<script type="module" src="/js/app.js"></script>
+    <!-- ============================
+         SCRIPT IMPORTS
+    ============================ -->
+    <script type="module" src="/js/config.js"></script>
+    <script type="module" src="/js/logger.js"></script>
+    <script type="module" src="/js/storage.js"></script>
+    <script type="module" src="/js/firebase-init.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script type="module" src="/js/ui.js"></script>
+    <script type="module" src="/js/app.js"></script>
 
   </body>
 </html>
